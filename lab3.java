@@ -7,6 +7,8 @@ import java.net.Socket;
 public class lab3 {
         public static void main(String[] args) throws IOException {
             Socket client = new Socket("localhost",5001);
+            System.out.println("Client Started");
+
 
             // Data receive from server-1
             InputStream server = client.getInputStream();

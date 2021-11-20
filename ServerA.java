@@ -8,12 +8,14 @@ import java.util.HashMap;
 import java.util.TimeZone;
 import FileSystem.FileObject;
 
+
 public class ServerA {
 //    static String DirectoryAPath = "src/directory_a"; //terminal
     static String DirectoryAPath = "directory_a"; //terminal
+
     public static void main(String[] args) {
         try {
-            //Establish the connection
+            //Establish the connection Server-A ---> cilent
             ServerSocket serverA = new ServerSocket(5001);
             Socket clienttoServerA = serverA.accept();
             System.out.println("Client to ServerA connection Established");
@@ -43,19 +45,37 @@ public class ServerA {
 
             //Establish Connection to ServerB
             Socket clientAServerB = new Socket("localhost",5002);
-
-            //Make a StreamReader to accept the data sent from Server-B
-            InputStream serverBoutput = clientAServerB.getInputStream();
-            //Convert the stream obtained from ServerB to required Format I used BufferReader..
-            BufferedReader s = new BufferedReader(new InputStreamReader(serverBoutput));
-            String str;
-            while ( (str = s.readLine()) != null ){
-//            System.out.println(str);
-                int tempsize =(int) Character.getNumericValue(str.charAt(0));
-                int temp = (int) Integer.parseInt(str.substring(1,tempsize+1));
-                server1finallist.put(str.substring(tempsize+1,temp+3),str.substring(temp+3));
-                sortList.add(str.substring(tempsize+1,temp+3));
+//------------------ Server B files as Objects -------------------------------
+            ObjectInput serverBoutput = new ObjectInputStream(clientAServerB.getInputStream());
+            FileObject nfsBout;
+            while (serverBoutput.read()!=1){
+                nfsBout = (FileObject) serverBoutput.readObject();
+                System.out.println(nfsBout.fn);
+                server1finallist.put(nfsBout.fn, nfsBout.fs+" Bytes"+ nfsBout.fstat);
+                server1list.put(nfsBout.fn, nfsBout.fs+" Bytes"+ nfsBout.fstat);
+                sortList.add(nfsBout.fn);
             }
+
+//------------------ Server B files as Objects End -------------------------------
+
+
+
+
+//------------------ Server B files as Strings -------------------------------
+//            //Make a StreamReader to accept the data sent from Server-B
+//            InputStream serverBoutput = clientAServerB.getInputStream();
+//            //Convert the stream obtained from ServerB to required Format I used BufferReader..
+//            BufferedReader s = new BufferedReader(new InputStreamReader(serverBoutput));
+//            String str;
+//            while ( (str = s.readLine()) != null ){
+////            System.out.println(str);
+//                int tempsize =(int) Character.getNumericValue(str.charAt(0));
+//                int temp = (int) Integer.parseInt(str.substring(1,tempsize+1));
+//                server1finallist.put(str.substring(tempsize+1,temp+3),str.substring(temp+3));
+//                sortList.add(str.substring(tempsize+1,temp+3));
+//            }
+//------------------ Server B files as Strings End -------------------------------
+
 
             //Sort the files
             Collections.sort(sortList);
@@ -70,7 +90,7 @@ public class ServerA {
             clientAServerB.close();
 
 
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 

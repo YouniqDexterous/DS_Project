@@ -2,8 +2,10 @@ package FileSystem;
 
 import org.w3c.dom.Node;
 
+import java.io.Serializable;
 
-public class FileObject implements Comparable<Node> {
+
+public class FileObject implements Comparable<Node>, Serializable {
     public String fn,fs,fstat;
 
     public FileObject(String filename, String filesize, String fileststatus){
