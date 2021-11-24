@@ -10,8 +10,10 @@ import FileSystem.FileObject;
 
 
 public class ServerA {
-//    static String DirectoryAPath = "src/directory_a"; //terminal
-    static String DirectoryAPath = "directory_a"; //terminal
+//    static String DirectoryAPath = "../src/directory_a"; // format for terminal
+//    static String DirectoryBPath = "../src/directory_b"; // format for terminal
+    static String DirectoryAPath = "src/directory_a"; //IDE
+    static String DirectoryBPath = "src/directory_b"; //IDE
 
     public static void main(String[] args) {
         try {
@@ -57,25 +59,6 @@ public class ServerA {
             }
 
 //------------------ Server B files as Objects End -------------------------------
-
-
-
-
-//------------------ Server B files as Strings -------------------------------
-//            //Make a StreamReader to accept the data sent from Server-B
-//            InputStream serverBoutput = clientAServerB.getInputStream();
-//            //Convert the stream obtained from ServerB to required Format I used BufferReader..
-//            BufferedReader s = new BufferedReader(new InputStreamReader(serverBoutput));
-//            String str;
-//            while ( (str = s.readLine()) != null ){
-////            System.out.println(str);
-//                int tempsize =(int) Character.getNumericValue(str.charAt(0));
-//                int temp = (int) Integer.parseInt(str.substring(1,tempsize+1));
-//                server1finallist.put(str.substring(tempsize+1,temp+3),str.substring(temp+3));
-//                sortList.add(str.substring(tempsize+1,temp+3));
-//            }
-//------------------ Server B files as Strings End -------------------------------
-
 
             //Sort the files
             Collections.sort(sortList);

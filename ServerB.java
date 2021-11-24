@@ -8,10 +8,11 @@ import FileSystem.FileObject;
 
 public class ServerB {
 
-//   static String DirectoryBPath = "src/directory_b";//terminal
-//   static String DirectoryAPath = "src/directory_a";//terminal
-    static String DirectoryBPath = "directory_b";
-    static String DirectoryAPath = "directory_a";
+//    static String DirectoryAPath = "../src/directory_a"; // format for terminal
+//    static String DirectoryBPath = "../src/directory_b"; // format for terminal
+    static String DirectoryAPath = "src/directory_a"; //IDE
+    static String DirectoryBPath = "src/directory_b"; //IDE
+
     public static void main(String[] args) {
 
 
