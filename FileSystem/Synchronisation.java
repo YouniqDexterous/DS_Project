@@ -28,7 +28,7 @@ public class Synchronisation {
         File file1 = new File(pathofB);
         String[] filelist = file1.list();
         HashSet<String> fileSettemp = new HashSet<>(Arrays.asList(filelist));
-        HashSet<String> deletefile = new HashSet<String>(oldfile);
+//        HashSet<String> deletefile = new HashSet<String>(oldfile);
         for (String eachfile:fileSettemp){
             file1 = new File(pathA+"/"+eachfile);
             if (!file1.isFile())
@@ -37,24 +37,44 @@ public class Synchronisation {
 
     }
 
-
-    //Checking proper working of set functions.
     public static void DeleteFile(HashSet<String> fileA,String pathA, String pathofB ){
-
-        File file1 = new File(pathofB); //direc_b
-        File file2 = new File(pathA); //direc_b
+        //delete(.. , removes from file, checking file)
+        File file1 = new File(pathofB);
         String[] filelist = file1.list();
         HashSet<String> fileSettemp = new HashSet<>(Arrays.asList(filelist));
         HashSet<String> deletefile = new HashSet<String>(fileA);
-        deletefile.removeAll(fileSettemp);
+        System.out.println(deletefile+" original-A");
+        System.out.println(fileSettemp+" temp-B");
+        System.out.println(deletefile.removeAll(fileSettemp));
+        System.out.println("Files Deleted: "+deletefile+" deletefile_op");
         for (String eachfile:deletefile){
-            file1 = new File(pathofB+"/"+eachfile);
-            file2 = new File(pathA+"/"+eachfile);
-            if (file1.isFile() && !file2.isFile())
+            file1 = new File(pathA+"/"+eachfile);
+            if (file1.isFile())
                 file1.delete();
         }
+
 //        files are deleted but previous deleted files are also store check if deletefile.clear(); works...
     }
+
+////  --------- NOT WORKING -------------
+//    //Checking proper working of set functions.
+//    public static void DeleteFile(HashSet<String> fileA,String pathA, String pathofB ){
+//
+//        File file1 = new File(pathofB); //direc_b
+//        File file2 = new File(pathA); //direc_b
+//        String[] filelist = file1.list();
+//        HashSet<String> fileSettemp = new HashSet<>(Arrays.asList(filelist));
+//        HashSet<String> deletefile = new HashSet<String>(fileA);
+//        deletefile.removeAll(fileSettemp);
+//        for (String eachfile:deletefile){
+//            file1 = new File(pathofB+"/"+eachfile);
+//            file2 = new File(pathA+"/"+eachfile);
+//            if (file1.isFile() && !file2.isFile())
+//                file1.delete();
+//        }
+////        files are deleted but previous deleted files are also store check if deletefile.clear(); works...
+//    }
+////    ---------- Not Working ------------
 
 //FileSystem End
 
