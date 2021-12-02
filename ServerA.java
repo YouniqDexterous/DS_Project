@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -17,7 +18,7 @@ public class ServerA {
     //other folder -- Desktop/Assignment/Distributed_Systems/ ----
     static String DirectoryAPath = "/Users/yogesh/Desktop/Assignment/Distributed_Systems/directory_a"; //IDE -- non-git
     static String DirectoryBPath = "/Users/yogesh/Desktop/Assignment/Distributed_Systems/directory_b"; //IDE -- non-git
-
+    static String lockIndexstatus;
 
     public static void main(String[] args) {
         try (
@@ -58,6 +59,21 @@ public class ServerA {
                                 }
                                 HashSet<String> fileSetOldA = new HashSet<String>(serverAsep);
 
+                //---Receive lock status from client -------
+
+                                Socket serverAClientLock = new Socket("localhost",5010); //serverA is client and cilent is server for this case
+                                System.out.println("Connection to receive lock status established");
+                                InputStream lockStatus = serverAClientLock.getInputStream();
+                                BufferedReader s=new BufferedReader(new InputStreamReader(lockStatus));
+                                String str;
+                                //Print the data.
+                                while ((str= s.readLine())!=null){
+                                    lockIndexstatus = str;
+                                    System.out.println(str+"Lock Status");
+                                }
+                                serverAClientLock.close();
+                //---- Lock status end -------
+
 
                                 //Establish Connection to ServerB
                                 Socket clientAServerB = new Socket("localhost",5002);
@@ -88,8 +104,10 @@ public class ServerA {
 //                                clientAServerB.close();
 
 
-//                   ---------- File Synchronisation --------
 
+
+
+//              ---------- File Synchronisation --------
                                 System.out.println(serverBseparatefile+"Server before update");
                                 //Copy Files of ServerB that are not in ServerA
                                 for (String fi : serverBseparatefile) {
@@ -106,12 +124,11 @@ public class ServerA {
                                     String[] newServerlist = serverADirectory.list();
                                     HashSet<String> fileSetNewA = new HashSet<String>(List.of(newServerlist));
                                     try {
-//                                        Thread.sleep(1000);
+                                        Thread.sleep(1000);
                                         Synchronisation.AddFile(fileSetOldA,DirectoryAPath,DirectoryBPath);
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
-                                    Synchronisation.DeleteFile(fileSetNewA,DirectoryAPath,DirectoryBPath);
                                     for (String fi : serverBseparatefile) {
 //                                    String temp = fi.replaceAll(" ","");
 //                        System.out.println(temp.length());
@@ -119,12 +136,18 @@ public class ServerA {
                                         File targetfile = new File(DirectoryBPath+"/"+fi);
                                         Synchronisation.copyfilewithContents(sourcefile,targetfile);
                                     }
+                                    Thread.sleep(2000);
+                                    Synchronisation.DeleteFile(fileSetNewA,DirectoryAPath,DirectoryBPath);
+
                                 }
-//                --------------    End file Synchronisation -------------
-                            } catch (IOException | ClassNotFoundException e) {
+//              --------------    End file Synchronisation -------------
+
+
+                            } catch (IOException | ClassNotFoundException | InterruptedException e) {
                                 e.printStackTrace();
                             }
                 }).start();//end while
+
 
 
                 new Thread(()-> {//SEND DATA FROM SERVER-A TO SERVER-B

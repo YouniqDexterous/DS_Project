@@ -43,10 +43,10 @@ public class Synchronisation {
         String[] filelist = file1.list();
         HashSet<String> fileSettemp = new HashSet<>(Arrays.asList(filelist));
         HashSet<String> deletefile = new HashSet<String>(fileA);
-        System.out.println(deletefile+" original-A");
-        System.out.println(fileSettemp+" temp-B");
+//        System.out.println(deletefile+" original-A");
+//        System.out.println(fileSettemp+" temp-B");
         System.out.println(deletefile.removeAll(fileSettemp));
-        System.out.println("Files Deleted: "+deletefile+" deletefile_op");
+//        System.out.println("Files Deleted: "+deletefile+" deletefile_op");
         for (String eachfile:deletefile){
             file1 = new File(pathA+"/"+eachfile);
             if (file1.isFile())

@@ -62,40 +62,29 @@ public class ServerB {
                             //Update the files
                             serverBfile = new File(DirectoryBPath);
                             serverBFileList = serverBfile.listFiles();
-
-                            iw++;
-                            System.out.println("Yes"+iw);
                             for (File a:serverBFileList){
                                 nfs = new FileObject(a.getName(),Long.toString(a.length()),date.format(a.lastModified()));
                                 System.out.println(nfs.fn+" "+nfs.fs+" "+nfs.fstat);
                                 nfs.fs.length();
                             }
-
-//                            try {
-//                                Thread.sleep(2000);
-//                            } catch (InterruptedException e) {
-//                                e.printStackTrace();
-//                            }
-
                             serverBfile = new File(DirectoryBPath);
                             String[] newServerBlist = serverBfile.list();
                             HashSet<String> fileSetNewB = new HashSet<String>(List.of(newServerBlist));
                             try {
+                                Thread.sleep(1000);
                                 Synchronisation.AddFile(fileSetOldB,DirectoryBPath,DirectoryAPath);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
+                            Thread.sleep(2000);
                             Synchronisation.DeleteFile(fileSetNewB,DirectoryBPath,DirectoryAPath);
-
-
-
                         }
 
 
 //                        ------- server update end --------
 //Store Old Files and New Files...
                     }//end common try
-                    catch (IOException e) {
+                    catch (IOException | InterruptedException e) {
                         e.printStackTrace();
                     }
                 }).start();//end thread
