@@ -34,7 +34,7 @@ public class ServerB {
                         File serverBfile = new File(DirectoryBPath);
                         File[] serverBFileList = serverBfile.listFiles();
                         ArrayList<String> serverBfileSet = new ArrayList<>();
-                        SimpleDateFormat date = new SimpleDateFormat(" H:m MM:d:y");
+                        SimpleDateFormat date = new SimpleDateFormat(" HH:mm MM:d:y");
                         date.setTimeZone(TimeZone.getTimeZone("GMT-5"));
 
                         // Read data from directory to server-B

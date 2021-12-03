@@ -5,6 +5,7 @@ import java.net.UnknownHostException;
 import FileSystem.FileLock;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.locks.Lock;
 
 import FileSystem.FileObject;
 import FileSystem.Synchronisation;
@@ -22,6 +23,7 @@ public class ServerA {
     static String[] lockIndexstatus;
     static String StatusofLock;
     static int IndexofLock;
+    static ArrayList<Integer> LockHistory;
 
     public static void main(String[] args) {
         try (
@@ -34,6 +36,7 @@ public class ServerA {
                 Socket clienttoServerA = serverA.accept();
                 System.out.println("Client to ServerA connection Established");
 
+
 //                create thread to keep connection alive
                 new Thread(()->{
                             try {
@@ -44,7 +47,7 @@ public class ServerA {
                                 File serverADirectory = new File(DirectoryAPath);
                                 File[] file = serverADirectory.listFiles();
                                 //Date Formatter
-                                SimpleDateFormat date = new SimpleDateFormat(" H:m MM:d:y");
+                                SimpleDateFormat date = new SimpleDateFormat(" HH:mm MM:d:y");
                                 date.setTimeZone(TimeZone.getTimeZone("GMT-5"));
 
                                 //Access the files as Object
@@ -59,6 +62,7 @@ public class ServerA {
                                     serverAfinallist.put(nfsA.fn, nfsA.fs+" Bytes"+ nfsA.fstat);
                                     serverAlist.put(nfsA.fn, nfsA.fs+" Bytes"+ nfsA.fstat);
                                     sortList.add(nfsA.fn);
+//                                    System.out.println(a.canWrite()+" "+a.getPath());
                                 }
                                 HashSet<String> fileSetOldA = new HashSet<String>(serverAsep);
 
@@ -72,7 +76,7 @@ public class ServerA {
                                 //Print the data.
                                 while ((str= s.readLine())!=null){
                                     lockIndexstatus = str.split(" ");
-                                    System.out.println(str+"Lock Status");
+                                    System.out.println(str+" Lock Status");
                                 }
                                 StatusofLock = lockIndexstatus[0];
                                 IndexofLock = Integer.parseInt(lockIndexstatus[1]);
@@ -103,9 +107,15 @@ public class ServerA {
                                 ArrayList<String> NonDuplicate = new ArrayList<>(serverAfinallist.keySet());
                                 Collections.sort(NonDuplicate);
 
+
                                 //Send Files to Client
+                                int i =0;
                                 for (String directories:NonDuplicate){
-                                    out.println(directories+" "+serverAfinallist.get(directories));
+                                    if (!new File(DirectoryAPath+"/"+directories).canWrite())
+                                        out.println(directories+" "+serverAfinallist.get(directories)+ " <Locked>");
+                                    else
+                                        out.println(directories+" "+serverAfinallist.get(directories));
+                                    i++;
                                 }
                                 out.flush();
                                 clienttoServerA.close();
