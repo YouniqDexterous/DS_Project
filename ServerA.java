@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import FileSystem.FileLock;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -18,7 +19,9 @@ public class ServerA {
     //other folder -- Desktop/Assignment/Distributed_Systems/ ----
     static String DirectoryAPath = "/Users/yogesh/Desktop/Assignment/Distributed_Systems/directory_a"; //IDE -- non-git
     static String DirectoryBPath = "/Users/yogesh/Desktop/Assignment/Distributed_Systems/directory_b"; //IDE -- non-git
-    static String lockIndexstatus;
+    static String[] lockIndexstatus;
+    static String StatusofLock;
+    static int IndexofLock;
 
     public static void main(String[] args) {
         try (
@@ -68,9 +71,14 @@ public class ServerA {
                                 String str;
                                 //Print the data.
                                 while ((str= s.readLine())!=null){
-                                    lockIndexstatus = str;
+                                    lockIndexstatus = str.split(" ");
                                     System.out.println(str+"Lock Status");
                                 }
+                                StatusofLock = lockIndexstatus[0];
+                                IndexofLock = Integer.parseInt(lockIndexstatus[1]);
+
+                                FileLock.Locking(StatusofLock,IndexofLock,DirectoryAPath);
+
                                 serverAClientLock.close();
                 //---- Lock status end -------
 
