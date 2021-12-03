@@ -144,6 +144,8 @@ public class ServerA {
                                     try {
                                         Thread.sleep(1000);
                                         Synchronisation.AddFile(fileSetOldA,DirectoryAPath,DirectoryBPath);
+                                        Synchronisation.copyfilewithContentsWritable(DirectoryAPath,DirectoryBPath);
+
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }

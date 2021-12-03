@@ -9,6 +9,24 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 public class Synchronisation {
+
+    public static void copyfilewithContentsWritable(String DirectoryAPath,String DirectoryBPath){
+        File serverA = new File(DirectoryAPath);
+        String[] serverAfilesList = serverA.list();
+        for (String fi : serverAfilesList) {
+//                                    String temp = fi.replaceAll(" ","");
+//                        System.out.println(temp.length());
+            File sourcefile = new File(DirectoryBPath +"/"+fi);
+            File targetfile = new File(DirectoryAPath +"/"+fi);
+            if (targetfile.canWrite()){
+                Synchronisation.copyfilewithContents(sourcefile, targetfile);
+            }
+
+        }
+    }
+
+
+
     public static void copyfilewithContents(File sourcefile, File targetfile) {
 //The below code copies files with checking contents...
         Path source = Path.of(String.valueOf(sourcefile));
@@ -55,6 +73,8 @@ public class Synchronisation {
 
 //        files are deleted but previous deleted files are also store check if deletefile.clear(); works...
     }
+
+
 
 ////  --------- NOT WORKING -------------
 //    //Checking proper working of set functions.

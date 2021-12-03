@@ -50,18 +50,19 @@ public class FileLock {
                     listofFile[Index].setWritable(true);
 //                    DS_Thread.updatefile()
 //          ---- Update Files ----
-                    File serverA = new File(DirectoryAPath);
-                    String[] serverAfilesList = serverA.list();
-                    for (String fi : serverAfilesList) {
-//                                    String temp = fi.replaceAll(" ","");
-//                        System.out.println(temp.length());
-                        File sourcefile = new File(DirectoryBPath +"/"+fi);
-                        File targetfile = new File(DirectoryAPath +"/"+fi);
-                        if (targetfile.canWrite()){
-                            Synchronisation.copyfilewithContents(sourcefile, targetfile);
-                        }
-
-                    }
+//                    File serverA = new File(DirectoryAPath);
+//                    String[] serverAfilesList = serverA.list();
+//                    for (String fi : serverAfilesList) {
+////                                    String temp = fi.replaceAll(" ","");
+////                        System.out.println(temp.length());
+//                        File sourcefile = new File(DirectoryBPath +"/"+fi);
+//                        File targetfile = new File(DirectoryAPath +"/"+fi);
+//                        if (targetfile.canWrite()){
+//                            Synchronisation.copyfilewithContents(sourcefile, targetfile);
+//                        }
+//
+//                    }
+                    Synchronisation.copyfilewithContentsWritable(DirectoryAPath,DirectoryBPath);
 //          ---- Update Files Ends ----
 
                     System.out.println("File Released");
