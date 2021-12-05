@@ -78,10 +78,11 @@ public class ServerA {
                                     lockIndexstatus = str.split(" ");
                                     System.out.println(str+" Lock Status");
                                 }
-                                StatusofLock = lockIndexstatus[0];
-                                IndexofLock = Integer.parseInt(lockIndexstatus[1]);
+                                StatusofLock = (lockIndexstatus.length>0)?lockIndexstatus[0]:"";
+                                IndexofLock = (lockIndexstatus.length>1 )?Integer.parseInt(lockIndexstatus[1]):-1;
 
-                                FileLock.Locking(StatusofLock,IndexofLock,DirectoryAPath);
+                                if (!StatusofLock.isEmpty() && IndexofLock>0)
+                                    FileLock.Locking(StatusofLock,IndexofLock,DirectoryAPath);
 
                                 serverAClientLock.close();
                 //---- Lock status end -------
@@ -112,9 +113,9 @@ public class ServerA {
                                 int i =0;
                                 for (String directories:NonDuplicate){
                                     if (!new File(DirectoryAPath+"/"+directories).canWrite())
-                                        out.println(directories+" "+serverAfinallist.get(directories)+ " <Locked>");
+                                        out.println("["+i+"]"+" "+directories+" "+serverAfinallist.get(directories)+ " <Locked>");
                                     else
-                                        out.println(directories+" "+serverAfinallist.get(directories));
+                                        out.println("["+i+"]"+" "+directories+" "+serverAfinallist.get(directories));
                                     i++;
                                 }
                                 out.flush();

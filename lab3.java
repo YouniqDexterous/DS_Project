@@ -6,9 +6,8 @@ import java.net.UnknownHostException;
 public class lab3 {
     //command lab3.java lock/unlock index
         public static void main(String[] args) throws IOException {
-            String lockStatus = args[0];
-            String indexOfFile = args[1];
-
+            String lockStatus = (args.length>1)?args[0].substring(1):"";
+            String indexOfFile = (args.length>1)?args[1].substring(1):"";
 
             new Thread(()->{
                 try{
